@@ -236,6 +236,40 @@ define ["jasmine", "js/spec_helpers/create_sinon", "squire"],
                 create_sinon.respondWithJson(requests, @mockAssetsResponse)
                 return requests
 
+            @clickUploadEvent = {
+                clickUploadButton : () -> $(".upload-button").click()
+            }
+
+            @clickChooseFileEvent = {
+                clickChooseFileButton : () -> $(".choose-file-button").click()
+            }
+
+            @clickHideModalEvent = {
+                clickHideModalButton : () -> $(".close-button").click()
+            }
+
+            it "should show upload modal on clicking upload asset button", ->
+                # Upload file button not binded with the view under test. So call showUploadModal directly.
+                spyOn(@view, "showUploadModal")
+                setup.call(this)
+                expect(@view.showUploadModal).not.toHaveBeenCalled()
+                @view.showUploadModal(@clickChooseFileEvent)
+                expect(@view.showUploadModal).toHaveBeenCalled()
+
+            it "should show file selection menu on choose file button", ->
+                spyOn(@view, "showFileSelectionMenu")
+                setup.call(this)
+                expect(@view.showFileSelectionMenu).not.toHaveBeenCalled()
+                @view.showFileSelectionMenu(@clickChooseFileEvent)
+                expect(@view.showFileSelectionMenu).toHaveBeenCalled()
+
+            it "should hide upload modal on clicking close button", ->
+                spyOn(@view, "hideModal")
+                setup.call(this)
+                expect(@view.hideModal).not.toHaveBeenCalled()
+                @view.hideModal(@clickHideModalEvent)
+                expect(@view.hideModal).toHaveBeenCalled()
+
             it "should show a status indicator while loading", ->
                 appendSetFixtures('<div class="ui-loading"/>')
                 expect($('.ui-loading').is(':visible')).toBe(true)
