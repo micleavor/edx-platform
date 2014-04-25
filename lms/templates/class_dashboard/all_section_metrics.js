@@ -68,6 +68,18 @@ $(function () {
         bVerticalXAxisLabel : true,
       };
       
+      // Construct array of tooltips for all sections for the "Download Problem Names" button.
+      var sectionTooltipArr = new Array();
+      paramGrade.data.forEach( function(element, index, array) {
+    	
+    	var stackDataArr = new Array();
+    	for (var j = 0; j < element.stackData.length; j++) {
+    		stackDataArr[j] = element.stackData[j].tooltip
+    	}
+    	sectionTooltipArr[index] = stackDataArr;
+      });
+      allTooltipArr[i] = sectionTooltipArr;
+      
       barGraphGrade = edx_d3CreateStackedBarGraph(paramGrade, d3.select(curr_id).append("svg"),
               d3.select("#${id_tooltip_prefix}"+i));
       barGraphGrade.scale.stackColor.domain([0,50,100]).range(["#e13f29","#cccccc","#17a74d"]);
@@ -83,6 +95,7 @@ $(function () {
 
       i+=1;
     }
+    
   });
   
 });

@@ -392,6 +392,10 @@ if settings.FEATURES.get('CLASS_DASHBOARD'):
         # For listing of students' grade per problem
         url(r'^get_students_problem_grades$',
             'class_dashboard.dashboard_data.get_students_problem_grades', name="get_students_problem_grades"),
+
+        # For listing poblem names
+        url(r'^post_problem_names_url$',
+            'class_dashboard.dashboard_data.post_problem_names', name="post_problem_names"),
     )
 
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):

@@ -244,5 +244,6 @@ def _section_metrics(course_id, access):
         'section_has_problem': get_array_section_has_problem(course_id),
         'get_students_opened_subsection_url': reverse('get_students_opened_subsection'),
         'get_students_problem_grades_url': reverse('get_students_problem_grades'),
+        'post_problem_names_url': reverse('post_problem_names'),
     }
     return section_data

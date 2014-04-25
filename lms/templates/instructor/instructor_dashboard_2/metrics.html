@@ -13,6 +13,7 @@
   <%namespace name="all_section_metrics" file="/class_dashboard/all_section_metrics.js"/>
   
   <input type="button" id="graph_reload" value="${_("Reload Graphs")}" />
+  <input type="button" id="download_problem_names" value="${_("Download Problem Names")}" />
   <p class="attention">${_("Click on any bar to list students.")}</p>
 
   <!-- For each section with data, create the divs for displaying the graphs
@@ -46,6 +47,7 @@
   <script>
     $(function () {
       var firstLoad = true;
+      var allTooltipArr = new Array();
 
       // Click handler for left bars
       $('.metrics-container').on("click", '.metrics-left .stacked-bar', function () {
@@ -127,7 +129,9 @@
      
       loadGraphs = function() {
         $('#graph_reload').hide();
+        $('#download_problem_names').hide();
         $('.loading').remove();
+        
 
         var nothingText = "${_('There are no problems in this section.')}";
         var loadingText = "${_('Loading...')}";
@@ -150,27 +154,65 @@
 
         ${all_section_metrics.body("metric_opened_", "metric_grade_", "metric_attempts_", "metric_tooltip_", course.id)}
       }
+      
+      download_problem_names = function() {
+
+        var allSectionArr = []
+        allTooltipArr.forEach( function(element, index, array) {
+    	   
+          var metrics_section = 'metrics_section' + '_' + index
+          var section = $('#' + metrics_section).children('h2').text();
+          allSectionArr[index] = section;
+    	});
+        
+   
+         allSectionArr_json = JSON.stringify(allSectionArr);
+         allTooltipArr_json = JSON.stringify(allTooltipArr);
+        
+    	console.log(allSectionArr);
+    //	console.log(allTooltipArr);
+    	
+        $.ajax({
+          url: "${section_data['post_problem_names_url']}",
+          type: "POST",
+          dataType: "json",
+          contentType: 'application/json',
+          data: {sections: allSectionArr_json, tooltips: allTooltipArr_json},
+          success: function(response) {
+    	      console.log("success from post")
+          },
+        });
+        
+      }
 
       $('.instructor-nav a').click(function () {
         if ($(this).data('section') === "metrics" && firstLoad) {
           loadGraphs();
           firstLoad = false;
           $('#graph_reload').show();
+          $('#download_problem_names').show();
         }
       });
       
       $('#graph_reload').click(function () {
         loadGraphs();
         $('#graph_reload').show();
+        $('#download_problem_names').show();
+      });
+      
+      $('#download_problem_names').click(function() {
+        download_problem_names();
       });
 
       if (window.location.hash === "#view-metrics") {
         $('.instructor-nav a[data-section="metrics"]').click();
         $('#graph_reload').hide();
+        $('#download_problem_names').hide();
       }
       
       $(document).ajaxStop(function() {
           $('#graph_reload').show();
+          $('#download_problem_names').show();
       });
       
     });

@@ -2,6 +2,7 @@
 Computes the data to display on the Instructor Dashboard
 """
 from util.json_request import JsonResponse
+import json
 
 from courseware import models
 from django.db.models import Count
@@ -34,6 +35,7 @@ def get_problem_grade_distribution(course_id):
     ).values('module_state_key', 'grade', 'max_grade').annotate(count_grade=Count('grade'))
 
     prob_grade_distrib = {}
+    total_student_count = {}
 
     # Loop through resultset building data for each problem
     for row in db_query:
@@ -53,7 +55,10 @@ def get_problem_grade_distribution(course_id):
                 'grade_distrib': [(row['grade'], row['count_grade'])]
             }
 
-    return prob_grade_distrib
+        # Build set of total students attempting each problem
+        total_student_count[curr_problem] = total_student_count.get(curr_problem, 0) + row['count_grade']
+
+    return prob_grade_distrib, total_student_count
 
 
 def get_sequential_open_distrib(course_id):
@@ -136,7 +141,7 @@ def get_d3_problem_grade_distrib(course_id):
       'data' - data for the d3_stacked_bar_graph function of the grade distribution for that problem
     """
 
-    prob_grade_distrib = get_problem_grade_distribution(course_id)
+    prob_grade_distrib, total_student_count = get_problem_grade_distribution(course_id)
     d3_data = []
 
     # Retrieve course object down to problems
@@ -180,8 +185,13 @@ def get_d3_problem_grade_distrib(course_id):
                                 if max_grade > 0:
                                     percent = (grade * 100.0) / max_grade
 
+                                # Compute percent of students with this grade
+                                student_count_percent = 0
+                                if total_student_count.get(child.location.url(), 0):
+                                    student_count_percent = count_grade*100/total_student_count[child.location.url()]
+
                                 # Construct tooltip for problem in grade distibution view
-                                tooltip = _("{label} {problem_name} - {count_grade} {students} ({percent:.0f}%: {grade:.0f}/{max_grade:.0f} {questions})").format(
+                                tooltip = _("{label} {problem_name} - {count_grade} {students} ({student_count_percent:.0f}%) ({percent:.0f}%: {grade:.0f}/{max_grade:.0f} {questions})").format(
                                     label=label,
                                     problem_name=problem_name,
                                     count_grade=count_grade,
@@ -190,6 +200,7 @@ def get_d3_problem_grade_distrib(course_id):
                                     grade=grade,
                                     max_grade=max_grade,
                                     questions=_("questions"),
+                                    student_count_percent=student_count_percent,
                                 )
 
                                 # Construct data to be sent to d3
@@ -517,6 +528,47 @@ def get_students_problem_grades(request, csv=False):
 
         response = create_csv_response(filename, header, results)
         return response
+
+
+def post_problem_names(request):
+    
+    sections = json.loads(request.POST['sections'])
+    print "++++++++"
+    print sections
+    
+    tooltips = json.loads(request.POST['tooltips'])
+    print "---------"
+    print tooltips
+         
+  #  j = json.loads(data)
+    
+    #allSectionDict_json = request.POST['allSectionDict']
+    #allSectionDict = json.loads(allSectionDict_json)
+    
+   # allSectionDict = json.loads(request.POST.get('allSectionDict'))
+  #  allSectionDict = request.POST.get('allSectionDict')
+  #  print "**********"
+  #  print allSectionDict
+
+#     print request.POST
+#     print "-------------"
+#     for key, val in request.POST.items():
+#         print key
+#         print "******"
+#         print val
+        
+#    allSectionDict = request.POST['allSectionDict']
+#    print "+++++++++"
+#    print allSectionDict
+        
+       # allSectionDict = key
+    
+  #  allSectionDict = request.POST
+        
+  #  print allSectionDict
+   # allSectionDict = request.POST['allSectionDict']
+    
+    return JsonResponse({'a': 'b'})
 
 
 def sanitize_filename(filename):
