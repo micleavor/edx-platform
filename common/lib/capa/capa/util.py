@@ -33,7 +33,7 @@ def compare_with_tolerance(complex1, complex2, tolerance=default_tolerance, rela
         tolerance = tolerance * max(abs(complex1), abs(complex2))
     elif tolerance.endswith('%'):
         tolerance = evaluator(dict(), dict(), tolerance[:-1]) * 0.01
-        tolerance = tolerance * max(abs(complex1), abs(complex2))
+        tolerance = tolerance * abs(complex2)
     else:
         tolerance = evaluator(dict(), dict(), tolerance)
 
