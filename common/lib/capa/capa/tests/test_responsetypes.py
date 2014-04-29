@@ -1189,9 +1189,20 @@ class NumericalResponseTest(ResponseTest):
         self.assert_multiple_grade(problem, correct_responses, incorrect_responses)
 
     def test_grade_percent_tolerance(self):
+        # Positive only range
         problem = self.build_problem(answer=4, tolerance="10%")
-        correct_responses = ["4.0", "4.3", "3.7", "4.30", "3.70"]
-        incorrect_responses = ["", "4.5", "3.5", "0"]
+        correct_responses = ["4.0", "4.4", "3.6", "4.40", "3.60"]
+        incorrect_responses = ["", "4.4000001", "3.5999999", "0"]
+        self.assert_multiple_grade(problem, correct_responses, incorrect_responses)
+        # Negative only range
+        problem = self.build_problem(answer=-4, tolerance="10%")
+        correct_responses = ["-4.0", "-4.4", "-3.6", "-4.40", "-3.60"]
+        incorrect_responses = ["", "-4.4000001", "-3.5999999", "0"]
+        self.assert_multiple_grade(problem, correct_responses, incorrect_responses)
+        # Mixed negative/positive range
+        problem = self.build_problem(answer=0, tolerance="10%")
+        correct_responses = ["0", "0.1", "-0.1", "0.10", "-0.10"]
+        incorrect_responses = ["", "-0.1000001", "0.1000001", "0"]
         self.assert_multiple_grade(problem, correct_responses, incorrect_responses)
 
     def test_floats(self):
