@@ -1202,7 +1202,7 @@ class NumericalResponseTest(ResponseTest):
         # Mixed negative/positive range
         problem = self.build_problem(answer=0, tolerance="10%")
         correct_responses = ["0", "0.1", "-0.1", "0.10", "-0.10"]
-        incorrect_responses = ["", "-0.1000001", "0.1000001", "0"]
+        incorrect_responses = ["", "-0.1000001", "0.1000001"]
         self.assert_multiple_grade(problem, correct_responses, incorrect_responses)
 
     def test_floats(self):

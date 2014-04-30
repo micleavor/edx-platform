@@ -7,14 +7,14 @@ from cmath import isinf
 default_tolerance = '0.001%'
 
 
-def compare_with_tolerance(complex1, complex2, tolerance=default_tolerance, relative_tolerance=False):
+def compare_with_tolerance(student_complex, instructor_complex, tolerance=default_tolerance, relative_tolerance=False):
     """
-    Compare complex1 to complex2 with maximum tolerance tol.
+    Compare student_complex to instructor_complex with maximum tolerance tol.
 
     If tolerance is type string, then it is counted as relative if it ends in %; otherwise, it is absolute.
 
-     - complex1    :  student result (float complex number)
-     - complex2    :  instructor result (float complex number)
+     - student_complex    :  student result (float complex number)
+     - instructor_complex    :  instructor result (float complex number)
      - tolerance   :  string representing a number or float
      - relative_tolerance: bool, used when`tolerance` is float to explicitly use passed tolerance as relative.
 
@@ -30,22 +30,22 @@ def compare_with_tolerance(complex1, complex2, tolerance=default_tolerance, rela
         Out[212]: 268435456.0
     """
     if relative_tolerance:
-        tolerance = tolerance * max(abs(complex1), abs(complex2))
+        tolerance = tolerance * abs(instructor_complex)
     elif tolerance.endswith('%'):
         tolerance = evaluator(dict(), dict(), tolerance[:-1]) * 0.01
-        tolerance = tolerance * abs(complex2)
+        tolerance = tolerance * abs(instructor_complex)
     else:
         tolerance = evaluator(dict(), dict(), tolerance)
 
-    if isinf(complex1) or isinf(complex2):
-        # If an input is infinite, we can end up with `abs(complex1-complex2)` and
+    if isinf(student_complex) or isinf(instructor_complex):
+        # If an input is infinite, we can end up with `abs(student_complex-instructor_complex)` and
         # `tolerance` both equal to infinity. Then, below we would have
         # `inf <= inf` which is a fail. Instead, compare directly.
-        return complex1 == complex2
+        return student_complex == instructor_complex
     else:
         # v1 and v2 are, in general, complex numbers:
         # there are some notes about backward compatibility issue: see responsetypes.get_staff_ans()).
-        return abs(complex1 - complex2) <= tolerance
+        return abs(student_complex - instructor_complex) <= tolerance
 
 
 def contextualize_text(text, context):  # private
