@@ -1,3 +1,6 @@
+"""
+OpaqueKey abstract classes for edx-platform object types (courses, definitions, usages, and assets).
+"""
 from abc import abstractmethod, abstractproperty
 
 from opaque_keys import OpaqueKey
@@ -5,6 +8,9 @@ from xblock.runtime import IdReader
 
 
 class CourseKey(OpaqueKey):
+    """
+    An :class:`opaque_keys.OpaqueKey` identifying a particular Course object.
+    """
     KEY_TYPE = 'course_key'
     __slots__ = ()
 
@@ -79,6 +85,12 @@ class CourseObjectMixin(object):
         """
         Return a new :class:`UsageKey` representing this usage inside the
         course identified by the supplied :class:`CourseKey`.
+
+        Args:
+            course_key (CourseKey): The course to map this object into.
+
+        Returns:
+            A new :class:`CourseObjectMixin` instance.
         """
         raise NotImplementedError()
 
@@ -118,7 +130,23 @@ class OpaqueKeyReader(IdReader):
     IdReader for :class:`DefinitionKey` and :class:`UsageKey`s.
     """
     def get_definition_id(self, usage_id):
+        """Retrieve the definition that a usage is derived from.
+
+        Args:
+            usage_id: The id of the usage to query
+
+        Returns:
+            The `definition_id` the usage is derived from
+        """
         return usage_id.definition_key
 
     def get_block_type(self, def_id):
+        """Retrieve the block_type of a particular definition
+
+        Args:
+            def_id: The id of the definition to query
+
+        Returns:
+            The `block_type` of the definition
+        """
         return def_id.block_type

@@ -1,4 +1,4 @@
-""" Contains Locations ___ """
+"""OpaqueKey implementations used by XML and Mongo modulestores"""
 
 import logging
 import re
@@ -11,7 +11,7 @@ import json
 log = logging.getLogger(__name__)
 
 URL_RE = re.compile("""
-    (?P<tag>[^:]+)://?
+    ((?P<tag>[^:/]+)://?|/(?P<tag>[^/]+))
     (?P<org>[^/]+)/
     (?P<course>[^/]+)/
     (?P<category>[^/]+)/
@@ -47,11 +47,11 @@ class SlashSeparatedCourseKey(CourseKey):
 
     def _to_string(self):
         # Turns slashes into pluses
-        return self.to_deprecated_string().replace("/", "+")
+        return u'+'.join([self.org, self.course, self.run])
 
     @property
     def offering(self):
-        return '/'.join([self.course, self.run])
+        return u'/'.join([self.course, self.run])
 
     def make_asset_key(self, asset_type, path):
         return AssetLocation(self.org, self.course, self.run, asset_type, path, None)
@@ -60,7 +60,7 @@ class SlashSeparatedCourseKey(CourseKey):
         return Location(self.org, self.course, self.run, block_type, name, None)
 
     def to_deprecated_string(self):
-        return '/'.join([self.org, self.course, self.run])
+        return u'/'.join([self.org, self.course, self.run])
 
     @classmethod
     def from_deprecated_string(cls, serialized):
@@ -71,16 +71,9 @@ class SlashSeparatedCourseKey(CourseKey):
         Temporary mechanism for creating a UsageKey given a CourseKey and a serialized Location. NOTE:
         this prejudicially takes the tag, org, and course from the url not self.
 
-        Also, it tries to interpret the string as a new format url if the old i4x format parse fails.
-
-        It also checks whether for some reason the url is already a UsageKey and returns it w/o further
-        ado.
-
         Raises:
             InvalidKeyError: if the url does not parse
         """
-        if isinstance(location_url, UsageKey):
-            return location_url
         match = URL_RE.match(location_url)
         if match is None:
             raise InvalidKeyError(Location, location_url)
@@ -92,13 +85,19 @@ class SlashSeparatedCourseKey(CourseKey):
 
 class LocationBase(object):
     """
-    Encodes a location.
-
-    Locations representations of URLs of the
-    form {tag}://{org}/{course}/{category}/{name}[@{revision}], situated in the course
-    {org}/{course}/{run}.
+    Encodes a type of Location, which identifies a piece of
+    content situated in a course.
     """
     KEY_FIELDS = ('org', 'course', 'run', 'category', 'name', 'revision')
+
+    SERIALIZED_PATTERN = re.compile("""
+        (?P<org>[^/]+)\+
+        (?P<course>[^/]+)\+
+        (?P<run>[^/]+)\+
+        (?P<category>[^/]+)\+
+        (?P<name>[^@/]+)
+        (@(?P<revision>[^/]+))?
+    """, re.VERBOSE)
 
     @classmethod
     def _check_location_part(cls, val, regexp):
@@ -190,12 +189,6 @@ class LocationBase(object):
     def block_type(self):
         return self.category
 
-    def url(self):
-        """
-        Return a string containing the URL for this location
-        """
-        return self.to_deprecated_string()
-
     @classmethod
     def from_deprecated_string(cls, serialized):
         match = URL_RE.match(serialized)
@@ -213,27 +206,17 @@ class LocationBase(object):
         return url
 
     def _to_string(self):
-        output = u"/".join(
+        output = u"+".join(
             unicode(val)
             for val in (self.org, self.course, self.run, self.category, self.name)
         )
         if self.revision:
             output += u'@{}'.format(self.revision)
-        return output.replace("/", "+")
+        return output
 
     @classmethod
     def _from_string(cls, serialized):
-        serialized = serialized.replace("+", "/")
-        pattern = """
-            (?P<org>[^/]+)/
-            (?P<course>[^/]+)/
-            (?P<run>[^/]+)/
-            (?P<category>[^/]+)/
-            (?P<name>[^@/]+)
-            (@(?P<revision>[^/]+))?
-        """
-
-        match = re.match(pattern, serialized, re.VERBOSE)
+        match = self.SERIALIZED_PATTERN.match(serialized)
         if not match:
             raise InvalidKeyError(cls, serialized)
 
@@ -254,16 +237,33 @@ class LocationBase(object):
 
 
 class Location(LocationBase, UsageKey, DefinitionKey):
+    """
+    UsageKey and DefinitionKey implementation class for use with
+    XML and Mongo modulestores.
+    """
 
     CANONICAL_NAMESPACE = 'location'
     DEPRECATED_TAG = 'i4x'
     __slots__ = LocationBase.KEY_FIELDS
 
     def map_into_course(self, course_key):
+        """
+        Return a new :class:`UsageKey` representing this usage inside the
+        course identified by the supplied :class:`CourseKey`.
+
+        Args:
+            course_key (CourseKey): The course to map this object into.
+
+        Returns:
+            A new :class:`CourseObjectMixin` instance.
+        """
         return Location(course_key.org, course_key.course, course_key.run, self.category, self.name, self.revision)
 
 
 class AssetLocation(LocationBase, AssetKey):
+    """
+    An AssetKey implementation class.
+    """
     CANONICAL_NAMESPACE = 'asset-location'
     DEPRECATED_TAG = 'c4x'
     __slots__ = LocationBase.KEY_FIELDS
@@ -280,6 +280,16 @@ class AssetLocation(LocationBase, AssetKey):
         return url
 
     def map_into_course(self, course_key):
+        """
+        Return a new :class:`UsageKey` representing this usage inside the
+        course identified by the supplied :class:`CourseKey`.
+
+        Args:
+            course_key (CourseKey): The course to map this object into.
+
+        Returns:
+            A new :class:`CourseObjectMixin` instance.
+        """
         return AssetLocation(course_key.org, course_key.course, course_key.run, self.category, self.name, self.revision)
 
 
