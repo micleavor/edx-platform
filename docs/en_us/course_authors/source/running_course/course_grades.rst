@@ -487,21 +487,21 @@ information.
 
 * The x-axis indicates the number of points that students can receive for the
   problem, unweighted. Although decimal values are marked on the x-axis, each
-  score is a whole number. The whole number value at the left of an interval is
-  the score that applies to the corresponding plotted bar.
+  score is a whole number. The whole number value at the left of a plotted bar
+  is the score that applies to it.
 
-* The y-axis indicates a number of students who have answered and checked the
+* The y-axis indicates the number of students who have answered and checked the
   problem.
 
-* Above the graph, a number of "students scored" displays. This number indicates
-  the total number of database records that exist for that problem. In addition
-  to students who have answered the questions and checked their answers to
-  receive a score, this total also includes students who have opened the problem
-  but have not yet completed it.
+* Above the graph, a number of **students scored** displays. This number
+  indicates the total number of database records that exist for the problem: it
+  includes not only students who have answered and checked the problem to
+  receive a score, but also students who have opened the problem but not yet
+  completed it.
 
 * An automated process runs approximately weekly on the edX servers to update
   score histograms. This process runs less frequently than the process that
-  updates the student answer distribution report, so at certain times during the
+  updates the student answer distribution report: at certain times during a
   course the number of students shown in a score histogram can be quite
   different than the **Count** for the same problem in a student answer
   distribution report.
