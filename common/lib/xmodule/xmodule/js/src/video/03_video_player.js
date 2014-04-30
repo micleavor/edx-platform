@@ -331,6 +331,7 @@ function (HTML5Video, Resizer) {
         this.videoPlayer.currentTime = time || this.videoPlayer.player.getCurrentTime();
 
         if (isFinite(this.videoPlayer.currentTime)) {
+            this.el.trigger('update', [this.videoPlayer.currentTime]);
             this.videoPlayer.updatePlayTime(this.videoPlayer.currentTime);
 
             // We need to pause the video if current time is smaller (or equal)
@@ -502,8 +503,6 @@ function (HTML5Video, Resizer) {
         // `duration`. In this case, slider doesn't reach the end point of
         // timeline.
         this.videoPlayer.updatePlayTime(time);
-
-        debugger;
 
         this.el.trigger('ended', arguments);
     }

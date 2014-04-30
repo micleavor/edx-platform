@@ -19,8 +19,6 @@ function (AbstractGrader) {
             return new GraderCollection(state, i18n);
         }
 
-        debugger;
-
         this.graderInstances = [];
         this.graderMap = {
             'scored_on_end': 'GradeOnEnd',
@@ -33,8 +31,6 @@ function (AbstractGrader) {
             $.each(state.config.graders, function (backendPropertyName, graderConfig) {
                 var graderName = _this.graderMap[backendPropertyName],
                     graderInstance;
-
-                debugger;
 
                 if (GraderCollection[graderName]) {
                     graderInstance = new GraderCollection[graderName](state, i18n, graderConfig);
@@ -51,15 +47,18 @@ function (AbstractGrader) {
 
     GraderCollection.GradeOnEnd = AbstractGrader.extend({
         getGrader: function (element, state) {
-            var dfd = $.Deferred();
+            var dfd = $.Deferred(),
+                _this = this;
 
-            element.on('ended', function () {
-                debugger;
+            element.on('update', function (event, currentTime) {
+                if (currentTime > 2 && _this.graderConfig[0] === false) {
+                    debugger;
+                    console.log('_this = ', _this);
+                    _this.graderConfig[0] = true;
 
-                dfd.resolve();
+                    dfd.resolve();
+                }
             });
-
-            debugger;
 
             return dfd.promise();
         },
@@ -69,12 +68,20 @@ function (AbstractGrader) {
 
     GraderCollection.GradeOnPercent = AbstractGrader.extend({
         getGrader: function (element, state) {
-            var dfd = $.Deferred();
+            var dfd = $.Deferred(),
+                _this = this;
 
             // TODO: Implement success scenario.
             // element.on('ended', dfd.resolve);
+            element.on('update', function (event, currentTime) {
+                if (currentTime > 10 && _this.graderConfig[0] === false) {
+                    debugger;
+                    console.log('_this = ', _this);
+                    _this.graderConfig[0] = true;
 
-            debugger;
+                    dfd.resolve();
+                }
+            });
 
             return dfd.promise();
         },
