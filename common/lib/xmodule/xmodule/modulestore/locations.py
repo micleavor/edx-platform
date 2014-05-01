@@ -11,7 +11,7 @@ import json
 log = logging.getLogger(__name__)
 
 URL_RE = re.compile("""
-    ((?P<tag>[^:/]+)://?|/(?P<tag>[^/]+))
+    ([^:/]+://?|/[^/]+)
     (?P<org>[^/]+)/
     (?P<course>[^/]+)/
     (?P<category>[^/]+)/
@@ -78,8 +78,6 @@ class SlashSeparatedCourseKey(CourseKey):
         if match is None:
             raise InvalidKeyError(Location, location_url)
         groups = match.groupdict()
-        if 'tag' in groups:
-            del groups['tag']
         return Location(run=self.run, **groups)
 
 
@@ -195,8 +193,6 @@ class LocationBase(object):
         if match is None:
             raise InvalidKeyError(Location, serialized)
         groups = match.groupdict()
-        if 'tag' in groups:
-            del groups['tag']
         return Location(run=None, **groups)
 
     def to_deprecated_string(self):
