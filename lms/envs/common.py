@@ -531,8 +531,6 @@ TIME_ZONE = 'America/New_York'  # http://en.wikipedia.org/wiki/List_of_tz_zones_
 LANGUAGE_CODE = 'en'  # http://www.i18nguy.com/unicode/language-identifiers.html
 
 # Sourced from http://www.localeplanet.com/icu/ and wikipedia
-# Languages that don't have any reviewed strings are commented out;
-# see https://www.transifex.com/projects/p/edx-platform/
 LANGUAGES = (
     ('en', u'English'),
     ('eo', u'Dummy Language (Esperanto)'),  # Dummy languaged used for testing
@@ -558,7 +556,6 @@ LANGUAGES = (
     ('es-es', u'Español (España)'),  # Spanish (Spain)
     ('es-mx', u'Español (México)'),  # Spanish (Mexico)
     ('es-pe', u'Español (Perú)'),  # Spanish (Peru)
-    ('es-us', u'Español (Estados Unidos)'),  # Spanish (United States)
     ('et-ee', u'Eesti (Eesti)'),  # Estonian (Estonia)
     ('eu-es', u'euskara (Espainia)'),  # Basque (Spain)
     ('fa', u'فارسی'),  # Persian
@@ -586,6 +583,7 @@ LANGUAGES = (
     ('pl', u'Polski'),  # Polish
     ('pt-br', u'Português (Brasil)'),  # Portuguese (Brazil)
     ('pt-pt', u'Português (Portugal)'),  # Portuguese (Portugal)
+    ('ro', u'română'),  # Romanian
     ('ru', u'Русский'),  # Russian
     ('si', u'සිංහල'),  # Sinhala
     ('sk', u'Slovenčina'),  # Slovak

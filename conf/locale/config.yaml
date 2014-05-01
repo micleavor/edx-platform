@@ -25,7 +25,6 @@ locales:
     - es_ES  # Spanish (Spain)
 #    - es_MX  # Spanish (Mexico)
 #    - es_PE  # Spanish (Peru)
-#    - es_US  # Spanish (United States)
 #    - et_EE  # Estonian (Estonia)
 #    - eu_ES  # Basque (Spain)
 #    - fa  # Persian
@@ -53,7 +52,8 @@ locales:
     - pl  # Polish
     - pt_BR  # Portuguese (Brazil)
 #    - pt_PT  # Portuguese (Portugal)
-#    - ru  # Russian
+#    - ro  # Romanian
+    - ru  # Russian
 #    - si  # Sinhala
 #    - sk  # Slovak
     - sl  # Slovenian
