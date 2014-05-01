@@ -27,7 +27,7 @@ Set Up Discussions for Your Course
 Discussions in an edX course include both the specific topics that you add to course units as discussion components, and  broader forums on course-wide areas of interest, such as Feedback, Troubleshooting, or Technical Help, that you can add as discussion categories. 
 
 ============================================
-Add Units with a Discussion Component
+Add Units With a Discussion Component
 ============================================
 
 Typically, all units are added during the design and creation of your course in Studio. To add a component to a unit, follow the instructions in :ref:`Working with Discussion Components`.   
@@ -267,31 +267,32 @@ For a student who continues to misuse the course discussions, you can unenroll t
 
 .. _Close_discussions:
 
-****************************
-Close Discussions
-****************************
+******************************
+Close Discussions to New Posts
+******************************
 
 You can close the discussions for your course so that students cannot add posts.
-You can close course discussions temporarily, such as during an exam period, or
+Course discussions can be closed temporarily, such as during an exam period, or
 permanently, such as when a course ends.
 
-When you close the discussions for a course, students cannot add posts, respond
-to posts, or comment on responses. All of the discussion components in course
-units, and all of the discussion categories on the **Discussion** page, are
-closed. 
+When you close the discussions for a course, all of the discussion components in
+course units, and all of the discussion categories on the **Discussion** page,
+are affected.
 
-* Existing discussion contributions remain available for students to review.
+* Existing discussion contributions remain available for review.
+  
+* Students cannot add posts, respond to posts, or comment on responses.
 
 * Course Staff, Instructors, Discussion Admins, Discussion Moderators,
   and Discussion Community TAs are not affected when you close the discussions
   for a course. Users with these roles can continue to add to discussions. 
 
 =====================================
-Date Format Specification
+Start-End Date Format Specification
 =====================================
 
-To close course discussions, you enter a start date and time and an end date and
-time. You use this format to supply the start and end values:
+To close course discussions, you supply a start date and time and an end date
+and time in Studio. You enter the values in this format:
 
 ``["YYYY-MM-DDTHH:MM", "YYYY-MM-DDTHH:MM"]``
 
@@ -299,27 +300,30 @@ where:
 
 * The dates and times that you enter are in the Universal Coordinated (UTC) time
   zone, not in your local time zone.
-* You supply an actual letter T between the date and the time. 
+* You enter an actual letter **T** between the numeric date and time values. 
 * The first date and time indicate when you want course discussions to close.
 * The second date and time indicate when you want course discussions to reopen.
-  If you do not want the discussions to reopen, supply a date that is far in the
+  If you do not want the discussions to reopen, enter a date that is far in the
   future.
 * Quotation marks enclose each date-time value.
-* A comma and a space separate the start value from the end value.
+* A comma and a space separate the start date-time from the end date-time.
 * Square brackets enclose the start-end value pair.
-* You can supply more than one complete start-end value pair. A comma and a
+* You can supply more than one complete start and end value pair. A comma and a
   space separate each pair.
 
 For example, to close course discussions temporarily for a final exam period in
-July, and then permanently at midnight (UTC) on 9 August 2014, you supply:
+July, and then permanently on 9 August 2014, you enter:
 
 ``["2014-07-22T08:00", "2014-07-25T18:00"], ["2014-08-09T00:00", "2099-08-09T00:00"]``
 
-=====================================
-Define When Discussions Are Closed
-=====================================
+You enter these values between an additional pair of square brackets which are
+supplied for you in Studio.
 
-To define when discussions are closed, and when they reopen:
+============================================
+Define When Discussions Are Closed to Posts
+============================================
+
+To define when discussions are closed to new posts, and when they reopen:
 
 #. Open your course in Studio. 
 
@@ -327,12 +331,13 @@ To define when discussions are closed, and when they reopen:
 
 #. Scroll down to the **Policy Key** for **discussion_blackouts**. 
 
-#. In the **Policy Value** field, place your cursor between the brackets. Supply
-   the start and end dates for each time period you want the discussions to be
-   closed, using the required format.
+#. In the **Policy Value** field, place your cursor between the supplied square
+   brackets. Use the required date format specification to enter the start and
+   end dates for each time period during which you want discussions to be
+   closed to new posts.
 
-   When you supply the dates and times used in the example above, the **Policy
-   Value** field contains:
+   When you enter the dates and times from the example above, the **Policy
+   Value** field looks like this:
 
    .. image:: ../Images/Discussion_blackout_unformatted.png
      :alt: Policy value of [["2014-07-22T08:00", "2014-07-25T18:00"],
@@ -340,28 +345,8 @@ To define when discussions are closed, and when they reopen:
 
 5. Click **Save Changes**.
 
-   Studio reformats your entry to add more white space between the start-end
-   value pairs and the separators.
+   Studio reformats your entry to add line feeds and indentation, like this:
 
    .. image:: ../Images/Discussion_blackout_formatted.png
      :alt: Same policy value but with a line feed after each bracket and comma,
          and an indent before each date
-
-When students click the **Discussion** page 
-
-
-
-Click Discussion tab:
-New Post button is not there, Add a response > Post a response text box and Submit not there, Add a comment text box not there 
-
-
-Work in a discussion within a component:
-click New Post, enter text, click Add Post to try to post a new thread:
-"We had some trouble processing your request. Please try again."
-
-Click Expand discussion, enter text, click Submit to try to post a response:
-Sorry We had some trouble processing your request. Please ensure you have copied any unsaved work and then reload the page.
-
-
-
-
