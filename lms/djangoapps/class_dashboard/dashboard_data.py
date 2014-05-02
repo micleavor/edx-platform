@@ -532,10 +532,10 @@ def get_students_problem_grades(request, csv=False):
 
 def post_metrics_data_csv(request):
     """
-    Generate a list of opened subsections or problems for the entire course
+    Generate a list of opened subsections or problems for the entire course.
     Returns a header array, and an array of arrays in the format:
     section, subsection, count of students for subsections
-    or section, problem, name, count of students, percent of students, score for problems
+    or section, problem, name, count of students, percent of students, score for problems.
     """
 
     sections = json.loads(request.POST['sections'])

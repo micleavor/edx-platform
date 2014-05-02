@@ -95,11 +95,14 @@ class TestGetProblemGradeDistribution(ModuleStoreTestCase):
 
     def test_get_problem_grade_distribution(self):
 
-        prob_grade_distrib = get_problem_grade_distribution(self.course.id)
+        prob_grade_distrib, total_student_count = get_problem_grade_distribution(self.course.id)
 
         for problem in prob_grade_distrib:
             max_grade = prob_grade_distrib[problem]['max_grade']
             self.assertEquals(1, max_grade)
+
+        for val in total_student_count.values():
+            self.assertEquals(USER_COUNT, val)
 
     def test_get_sequential_open_distibution(self):
 
