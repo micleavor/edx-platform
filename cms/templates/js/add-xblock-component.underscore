@@ -1,5 +1,5 @@
 <div class="new-component">
-    <h5>Add New Component</h5>
+    <h5>Add New Component (FAKE)</h5>
     <ul class="new-component-type">
         <li>
             <a href="#" class="single-template" data-type="discussion" data-category="discussion">

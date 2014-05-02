@@ -5,11 +5,6 @@ define ["jquery", "jquery.ui", "gettext", "backbone",
 ($, ui, gettext, Backbone, NotificationView, PromptView, ModuleEditView, ModuleModel, BaseView, AddXBlockComponent) ->
   class UnitEditView extends BaseView
     events:
-      'click .new-component .new-component-type a.multiple-templates': 'showComponentTemplates'
-      'click .new-component .new-component-type a.single-template': 'saveNewComponent'
-      'click .new-component .cancel-button': 'closeNewComponent'
-      'click .new-component-templates .new-component-template a': 'saveNewComponent'
-      'click .new-component-templates .cancel-button': 'closeNewComponent'
       'click .delete-draft': 'deleteDraft'
       'click .create-draft': 'createDraft'
       'click .publish-draft': 'publishDraft'
@@ -31,6 +26,13 @@ define ["jquery", "jquery.ui", "gettext", "backbone",
         el: @$('.unit-name-input')
         model: @model
       )
+
+      @$('.add-xblock-component').each (index, element) =>
+        component = new AddXBlockComponent
+            el: element
+            createComponent: (template) =>
+                @saveNewComponent(template)
+        component.render()
 
       @addXBlockComponent = new AddXBlockComponent(
         el: @$('.add-xblock-component')
@@ -75,16 +77,6 @@ define ["jquery", "jquery.ui", "gettext", "backbone",
           onDelete: @deleteComponent,
           model: model
 
-    showComponentTemplates: (event) =>
-      event.preventDefault()
-
-      type = $(event.currentTarget).data('type')
-      @$newComponentTypePicker.slideUp(250)
-      @$(".new-component-#{type}").slideDown(250)
-      $('html, body').animate({
-        scrollTop: @$(".new-component-#{type}").offset().top
-      }, 500)
-
     closeNewComponent: (event) =>
       event.preventDefault()
 
@@ -93,9 +85,7 @@ define ["jquery", "jquery.ui", "gettext", "backbone",
       @$newComponentItem.removeClass('adding')
       @$newComponentItem.find('.rendered-component').remove()
 
-    createComponent: (event, data, notification_message, analytics_message, success_callback) =>
-      event.preventDefault()
-
+    createComponent: (data, notification_message, analytics_message, success_callback) =>
       editor = new ModuleEditView(
         onDelete: @deleteComponent
         model: new ModuleModel()
@@ -122,18 +112,18 @@ define ["jquery", "jquery.ui", "gettext", "backbone",
 
       return editor
 
-    saveNewComponent: (event) =>
+    saveNewComponent: (data) =>
       success_callback = =>
         @$newComponentItem.before(editor.$el)
       editor = @createComponent(
-        event, $(event.currentTarget).data(),
+        data,
         gettext('Adding&hellip;'),
         "Creating new component",
         success_callback
       )
-      @closeNewComponent(event)
 
     duplicateComponent: (event) =>
+      event.preventDefault()
       $component = $(event.currentTarget).parents('.component')
       source_locator = $component.data('locator')
       success_callback = ->
@@ -142,7 +132,6 @@ define ["jquery", "jquery.ui", "gettext", "backbone",
           scrollTop: editor.$el.offset().top
         }, 500)
       editor = @createComponent(
-        event,
         {duplicate_source_locator: source_locator},
         gettext('Duplicating&hellip;')
         "Duplicating " + source_locator,
