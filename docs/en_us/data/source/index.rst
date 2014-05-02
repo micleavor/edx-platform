@@ -31,9 +31,7 @@ The following sections of this document do not specifically pertain to researche
    course_data_formats/grading.rst
    course_data_formats/drag_and_drop/drag_and_drop_input.rst
    course_data_formats/graphical_slider_tool/graphical_slider_tool.rst
-   course_data_formats/lti_module/lti.rst
    course_data_formats/symbolic_response.rst
-   course_data_formats/formula_equation_input.rst
 
 
 
