@@ -212,7 +212,7 @@ class LocationBase(object):
 
     @classmethod
     def _from_string(cls, serialized):
-        match = self.SERIALIZED_PATTERN.match(serialized)
+        match = cls.SERIALIZED_PATTERN.match(serialized)
         if not match:
             raise InvalidKeyError(cls, serialized)
 
