@@ -10,6 +10,8 @@ Change Log
 
    * - Date
      - Change
+   * - 07 May 14
+     - Added enrollment event types to the :ref:`Tracking Logs` chapter. 
    * - 29 Apr 14
      - Corrected misstatement on how :ref:`Discussion Forums Data` is sent in
        data packages.
