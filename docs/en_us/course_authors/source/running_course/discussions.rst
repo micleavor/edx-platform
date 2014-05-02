@@ -281,11 +281,15 @@ are affected.
 
 * Existing discussion contributions remain available for review.
   
-* Students cannot add posts, respond to posts, or comment on responses.
+* Students cannot add posts, respond to posts, or comment on responses. However,
+  students can continue to vote on existing posts, report posts for misuse, and
+  follow posts.
 
 * Course Staff, Instructors, Discussion Admins, Discussion Moderators,
   and Discussion Community TAs are not affected when you close the discussions
   for a course. Users with these roles can continue to add to discussions. 
+
+.. note:: You may want to alert your students (through a discussion post and in the courseware) when the discussions are closed so that they understand why they cannot add to the discussions.
 
 =====================================
 Start-End Date Format Specification
