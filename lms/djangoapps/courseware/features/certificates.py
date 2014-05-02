@@ -1,10 +1,13 @@
 # pylint: disable=C0111
 # pylint: disable=W0621
 
+from django.conf import settings
+
 from lettuce import world, step
 from lettuce.django import django_url
 from course_modes.models import CourseMode
 from nose.tools import assert_equal
+
 
 UPSELL_LINK_CSS = '.message-upsell a.action-upgrade[href*="edx/999/Certificates"]'
 
@@ -275,7 +278,10 @@ def see_upsell_link_on_my_dashboard(step):
 @step(u'I see that I am on the verified track')
 def see_that_i_am_on_the_verified_track(step):
     id_verified_css = 'li.course-item article.course.verified'
-    assert world.is_css_present(id_verified_css)
+    if settings.FEATURES.get('VERIFIED_CERTIFICATES'):
+        assert world.is_css_present(id_verified_css)
+    else:
+        assert (not world.is_css_present(id_verified_css))
 
 
 @step(u'I leave the flow and return$')
