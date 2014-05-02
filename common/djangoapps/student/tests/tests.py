@@ -20,8 +20,9 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.hashers import UNUSABLE_PASSWORD
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import int_to_base36
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.http import HttpResponse
+from unittest.case import SkipTest
 
 from xmodule.modulestore.tests.factories import CourseFactory
 from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
@@ -288,12 +289,15 @@ class DashboardTest(TestCase):
         Check the particular string and css must exist
         """
         CourseEnrollment.enroll(self.user, self.course.location.course_id, mode=mode)
-        response = self.client.get(reverse('dashboard'))
-        self.assertContains(response, "class=\"course %s\"" % mode)
+        try:
+            response = self.client.get(reverse('dashboard'))
+        except NoReverseMatch:
+            raise SkipTest("Skip this test if url cannot be found (ie running from CMS tests)")
+        self.assertContains(response, "class=\"course {0}\"".format(mode))
         self.assertContains(response, value)
 
     @patch.dict("django.conf.settings.FEATURES", {'VERIFIED_CERTIFICATES': True})
-    def test_verification_status_invisible(self):
+    def test_verification_status_visible(self):
         """
         Test certificate verification should be visible on course listed
         """
@@ -307,12 +311,15 @@ class DashboardTest(TestCase):
         Check the particular string and css shouldn't exist
         """
         CourseEnrollment.enroll(self.user, self.course.location.course_id, mode=mode)
-        response = self.client.get(reverse('dashboard'))
-        self.assertNotContains(response, "class=\"course %s\"" % mode)
+        try:
+            response = self.client.get(reverse('dashboard'))
+        except NoReverseMatch:
+            raise SkipTest("Skip this test if url cannot be found (ie running from CMS tests)")
+        self.assertNotContains(response, "class=\"course {0}\"".format(mode))
         self.assertNotContains(response, value)
 
     @patch.dict("django.conf.settings.FEATURES", {'VERIFIED_CERTIFICATES': False})
-    def test_verification_status_visible(self):
+    def test_verification_status_invisible(self):
         """
         Test certificate verification shouldn't be visible on course listed
         """
