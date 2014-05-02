@@ -393,9 +393,9 @@ if settings.FEATURES.get('CLASS_DASHBOARD'):
         url(r'^get_students_problem_grades$',
             'class_dashboard.dashboard_data.get_students_problem_grades', name="get_students_problem_grades"),
 
-        # For listing poblem names
-        url(r'^post_problem_names_url$',
-            'class_dashboard.dashboard_data.post_problem_names', name="post_problem_names"),
+        # For generating metrics data as a csv
+        url(r'^post_metrics_data_csv_url',
+            'class_dashboard.dashboard_data.post_metrics_data_csv', name="post_metrics_data_csv"),
     )
 
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):

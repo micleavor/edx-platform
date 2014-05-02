@@ -188,7 +188,7 @@ def get_d3_problem_grade_distrib(course_id):
                                 # Compute percent of students with this grade
                                 student_count_percent = 0
                                 if total_student_count.get(child.location.url(), 0):
-                                    student_count_percent = count_grade*100/total_student_count[child.location.url()]
+                                    student_count_percent = count_grade * 100 / total_student_count[child.location.url()]
 
                                 # Construct tooltip for problem in grade distibution view
                                 tooltip = _("{label} {problem_name} - {count_grade} {students} ({student_count_percent:.0f}%) ({percent:.0f}%: {grade:.0f}/{max_grade:.0f} {questions})").format(
@@ -530,45 +530,55 @@ def get_students_problem_grades(request, csv=False):
         return response
 
 
-def post_problem_names(request):
-    
-    sections = json.loads(request.POST['sections'])
-    print "++++++++"
-    print sections
-    
-    tooltips = json.loads(request.POST['tooltips'])
-    print "---------"
-    print tooltips
-         
-  #  j = json.loads(data)
-    
-    #allSectionDict_json = request.POST['allSectionDict']
-    #allSectionDict = json.loads(allSectionDict_json)
-    
-   # allSectionDict = json.loads(request.POST.get('allSectionDict'))
-  #  allSectionDict = request.POST.get('allSectionDict')
-  #  print "**********"
-  #  print allSectionDict
+def post_metrics_data_csv(request):
+    """
+    Generate a list of opened subsections or problems for the entire course
+    Returns a header array, and an array of arrays in the format:
+    section, subsection, count of students for subsections
+    or section, problem, name, count of students, percent of students, score for problems
+    """
 
-#     print request.POST
-#     print "-------------"
-#     for key, val in request.POST.items():
-#         print key
-#         print "******"
-#         print val
-        
-#    allSectionDict = request.POST['allSectionDict']
-#    print "+++++++++"
-#    print allSectionDict
-        
-       # allSectionDict = key
-    
-  #  allSectionDict = request.POST
-        
-  #  print allSectionDict
-   # allSectionDict = request.POST['allSectionDict']
-    
-    return JsonResponse({'a': 'b'})
+    sections = json.loads(request.POST['sections'])
+    tooltips = json.loads(request.POST['tooltips'])
+    course_id = request.POST['course_id']
+    data_type = request.POST['data_type']
+
+    results = []
+    if data_type == 'subsection':
+        header = ['Section', 'Subsection', 'Opened by this number of students']
+        filename = sanitize_filename('subsections_' + course_id)
+    elif data_type == 'problem':
+        header = ['Section', 'Problem', 'Name', 'Count of Students', '% of Students', 'Score']
+        filename = sanitize_filename('problems_' + course_id)
+
+    i = 0
+    for section in sections:
+        results.append([section])
+
+        if data_type == 'subsection':
+            for tooltip_str in tooltips[i]:
+
+                # Parse the components from the tooltip_str
+                num_students = tooltip_str.split(' ')[0]
+                subsection = tooltip_str[tooltip_str.rfind(' opened ') + 8:]
+                results.append(['', subsection, num_students])
+            i += 1
+
+        elif data_type == 'problem':
+            for tooltip in tooltips[i]:
+                for tooltip_str in tooltip:
+
+                    # Parse the components from the tooltip_str
+                    problem = tooltip_str.split(' ')[0]
+                    name = tooltip_str[len(problem) + 1:tooltip_str.find('-') - 1]
+                    num_students = tooltip_str[tooltip_str.rfind(' - ') + 3: tooltip_str.rfind(' students ')]
+                    percent_students = tooltip_str[tooltip_str.rfind(' students (') + 11: tooltip_str.rfind('%) (')]
+                    score = tooltip_str[tooltip_str.rfind(') (') + 3: tooltip_str.rfind('%:')]
+                    results.append(['', problem, name, num_students, percent_students, score])
+            i += 1
+
+    response = create_csv_response(filename, header, results)
+    return response
 
 
 def sanitize_filename(filename):
