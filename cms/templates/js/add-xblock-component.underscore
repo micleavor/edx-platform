@@ -1,0 +1,184 @@
+<div class="new-component">
+    <h5>Add New Component</h5>
+    <ul class="new-component-type">
+        <li>
+            <a href="#" class="single-template" data-type="discussion" data-category="discussion">
+                <span class="large-template-icon large-discussion-icon"></span>
+                <span class="name">discussion</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="multiple-templates" data-type="html">
+                <span class="large-template-icon large-html-icon"></span>
+                <span class="name">html</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="multiple-templates" data-type="problem">
+                <span class="large-template-icon large-problem-icon"></span>
+                <span class="name">problem</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="single-template" data-type="video" data-category="video">
+                <span class="large-template-icon large-video-icon"></span>
+                <span class="name">video</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="new-component-templates new-component-html">
+    <div class="tab current" id="tab1">
+        <ul class="new-component-template"><li class="editor-md empty">
+            <a href="#" data-category="html">
+                <span class="name">Text</span>
+            </a>
+        </li>
+            <li class="editor-md">
+                <a href="#" data-category="html" data-boilerplate="announcement.yaml">
+                    <span class="name">Announcement</span>
+                </a>
+            </li>
+
+            <li class="editor-md">
+                <a href="#" data-category="html" data-boilerplate="anon_user_id.yaml">
+                    <span class="name">Anonymous User ID</span>
+                </a>
+            </li>
+
+            <li class="editor-md">
+                <a href="#" data-category="html" data-boilerplate="image_modal.yaml">
+                    <span class="name">Full Screen Image</span>
+                </a>
+            </li>
+
+            <li class="editor-md">
+                <a href="#" data-category="html" data-boilerplate="iframe.yaml">
+                    <span class="name">IFrame</span>
+                </a>
+            </li>
+
+            <li class="editor-md">
+                <a href="#" data-category="html" data-boilerplate="raw.yaml">
+                    <span class="name">Raw HTML</span>
+                </a>
+            </li>
+
+
+
+
+            <li class="editor-md">
+                <a href="#" data-category="html" data-boilerplate="zooming_image.yaml">
+                    <span class="name">Zooming Image</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <a href="#" class="cancel-button">Cancel</a>
+</div>
+<div class="new-component-templates new-component-problem">
+    <div class="tab-group tabs ui-tabs ui-widget ui-widget-content ui-corner-all">
+        <ul class="problem-type-tabs nav-tabs ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist">
+            <li class="current ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tab1" aria-labelledby="ui-id-1" aria-selected="true">
+                <a class="link-tab ui-tabs-anchor" href="#tab1" role="presentation" tabindex="-1" id="ui-id-1">Common Problem Types</a>
+            </li>
+            <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tab2" aria-labelledby="ui-id-2" aria-selected="false">
+                <a class="link-tab ui-tabs-anchor" href="#tab2" role="presentation" tabindex="-1" id="ui-id-2">Advanced</a>
+            </li>
+        </ul>
+        <div class="tab current ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab1" aria-labelledby="ui-id-1" role="tabpanel" aria-expanded="true" aria-hidden="false">
+            <ul class="new-component-template">
+
+                <li class="editor-md">
+                    <a href="#" data-category="problem" data-boilerplate="blank_common.yaml">
+                        <span class="name">Blank Common Problem</span>
+                    </a>
+                </li>
+
+                <li class="editor-md">
+                    <a href="#" data-category="problem" data-boilerplate="checkboxes_response.yaml">
+                        <span class="name">Checkboxes</span>
+                    </a>
+                </li>
+
+
+
+
+
+                <li class="editor-md">
+                    <a href="#" data-category="problem" data-boilerplate="optionresponse.yaml">
+                        <span class="name">Dropdown</span>
+                    </a>
+                </li>
+
+
+
+                <li class="editor-md">
+                    <a href="#" data-category="problem" data-boilerplate="multiplechoice.yaml">
+                        <span class="name">Multiple Choice</span>
+                    </a>
+                </li>
+
+                <li class="editor-md">
+                    <a href="#" data-category="problem" data-boilerplate="numericalresponse.yaml">
+                        <span class="name">Numerical Input</span>
+                    </a>
+                </li>
+
+
+                <li class="editor-md">
+                    <a href="#" data-category="problem" data-boilerplate="string_response.yaml">
+                        <span class="name">Text Input</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="tab ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab2" aria-labelledby="ui-id-2" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
+            <ul class="new-component-template">
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="None">
+                        <span class="name">Blank Advanced Problem</span>
+                    </a>
+                </li>
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="circuitschematic.yaml">
+                        <span class="name">Circuit Schematic Builder</span>
+                    </a>
+                </li>
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="jsinput_response.yaml">
+                        <span class="name">Custom Javascript Display and Grading</span>
+                    </a>
+                </li>
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="customgrader.yaml">
+                        <span class="name">Custom Python-Evaluated Input</span>
+                    </a>
+                </li>
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="drag_and_drop.yaml">
+                        <span class="name">Drag and Drop</span>
+                    </a>
+                </li>
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="imageresponse.yaml">
+                        <span class="name">Image Mapped Input</span>
+                    </a>
+                </li>
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="forumularesponse.yaml">
+                        <span class="name">Math Expression Input</span>
+                    </a>
+                </li>
+                <li class="editor-manual">
+                    <a href="#" data-category="problem" data-boilerplate="problem_with_hint.yaml">
+                        <span class="name">Problem with Adaptive Hint</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <a href="#" class="cancel-button">Cancel</a>
+</div>

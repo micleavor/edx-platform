@@ -1,8 +1,8 @@
 define ["jquery", "jquery.ui", "gettext", "backbone",
         "js/views/feedback_notification", "js/views/feedback_prompt",
         "coffee/src/views/module_edit", "js/models/module_info",
-        "js/views/baseview"],
-($, ui, gettext, Backbone, NotificationView, PromptView, ModuleEditView, ModuleModel, BaseView) ->
+        "js/views/baseview", "js/views/components/add_xblock"],
+($, ui, gettext, Backbone, NotificationView, PromptView, ModuleEditView, ModuleModel, BaseView, AddXBlockComponent) ->
   class UnitEditView extends BaseView
     events:
       'click .new-component .new-component-type a.multiple-templates': 'showComponentTemplates'
@@ -31,6 +31,11 @@ define ["jquery", "jquery.ui", "gettext", "backbone",
         el: @$('.unit-name-input')
         model: @model
       )
+
+      @addXBlockComponent = new AddXBlockComponent(
+        el: @$('.add-xblock-component')
+      )
+      @addXBlockComponent.render()
 
       @model.on('change:state', @render)
 

@@ -2,8 +2,11 @@
  * XBlockContainerView is used to display an xblock which has children, and allows the
  * user to interact with the children.
  */
-define(["jquery", "underscore", "gettext", "js/views/feedback_notification", "js/views/feedback_prompt", "js/views/baseview", "js/views/xblock", "js/views/modals/edit_xblock", "js/models/xblock_info"],
-    function ($, _, gettext, NotificationView, PromptView, BaseView, XBlockView, EditXBlockModal, XBlockInfo) {
+define(["jquery", "underscore", "gettext", "js/views/feedback_notification", "js/views/feedback_prompt",
+    "js/views/baseview", "js/views/xblock", "js/views/components/add_xblock", "js/views/modals/edit_xblock",
+    "js/models/xblock_info"],
+    function ($, _, gettext, NotificationView, PromptView, BaseView, XBlockView, AddXBlockComponent,
+              EditXBlockModal, XBlockInfo) {
 
         var XBlockContainerView = BaseView.extend({
             // takes XBlockInfo as a model
@@ -40,12 +43,22 @@ define(["jquery", "underscore", "gettext", "js/views/feedback_notification", "js
                         if (xblockView.hasChildXBlocks()) {
                             xblockView.$el.removeClass('is-hidden');
                             self.addButtonActions(xblockView.$el);
+                            self.renderAddXBlockComponents();
                         } else {
                             noContentElement.removeClass('is-hidden');
                         }
                         loadingElement.addClass('is-hidden');
                         self.delegateEvents();
                     }
+                });
+            },
+
+            renderAddXBlockComponents: function() {
+                this.$('.add-xblock-component').each(function(index, element) {
+                    var component = new AddXBlockComponent({
+                        el: element
+                    });
+                    component.render();
                 });
             },
 

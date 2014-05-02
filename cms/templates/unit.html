@@ -63,6 +63,7 @@ require(["domReady!", "jquery", "js/models/module_info", "coffee/src/views/unit"
             % for locator in locators:
             <li class="component" data-locator="${locator}"/>
             % endfor
+            <li class="add-xblock-component new-component-item adding"></li>
             <li class="new-component-item adding">
               <div class="new-component">
                 <h5>${_("Add New Component")}</h5>
